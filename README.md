@@ -1,6 +1,6 @@
 # boinor validation
 
-![CI shield](https://github.com/boinor/validation/workflows/Continuous%20integration/badge.svg?branch=main)
+![CI shield](https://github.com/boinor/validation/workflows/Continuous%20integration/badge.svg)
 
 This repository holds validation cases against similar boinor software.
 Several alternatives are available:
