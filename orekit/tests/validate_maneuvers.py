@@ -96,9 +96,7 @@ def validate_3D_hohmann():
 
     # Retrieve propagation time after maneuver has been applied
     tof_prop = tof - man_boinor.get_total_time().to(u.s).value
-    ssf_boinor = ss0_boinor.apply_maneuver(man_boinor).propagate(
-        tof_prop * u.s
-    )
+    ssf_boinor = ss0_boinor.apply_maneuver(man_boinor).propagate(tof_prop * u.s)
 
     # Retrieve boinor final state vectors
     r_boinor, v_boinor = ssf_boinor.rv()
@@ -198,9 +196,7 @@ def validate_3D_bielliptic():
 
     # Retrieve propagation time after maneuver has been applied
     tof_prop = tof - man_boinor.get_total_time().to(u.s).value
-    ssf_boinor = ss0_boinor.apply_maneuver(man_boinor).propagate(
-        tof_prop * u.s,
-    )
+    ssf_boinor = ss0_boinor.apply_maneuver(man_boinor).propagate(tof_prop * u.s,)
 
     # Retrieve boinor final state vectors
     r_boinor, v_boinor = ssf_boinor.rv()
