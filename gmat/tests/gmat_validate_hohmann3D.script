@@ -6,7 +6,7 @@
 % -----
 %
 % The following script tries to validate
-% poliastro's Hohmann maneuvers against 
+% boinor's Hohmann maneuvers against 
 % GMAT2020a version.
 
 %----------------------------------------

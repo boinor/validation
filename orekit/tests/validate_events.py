@@ -19,15 +19,15 @@ from org.orekit.propagation.events.handlers import (
 )
 from org.orekit.time import AbsoluteDate, TimeScalesFactory
 from org.orekit.utils import Constants, IERSConventions
-from poliastro.bodies import Earth
-from poliastro.twobody import Orbit
-from poliastro.twobody.events import (
+from boinor.bodies import Earth
+from boinor.twobody import Orbit
+from boinor.twobody.events import (
     LatitudeCrossEvent,
     NodeCrossEvent,
     PenumbraEvent,
     UmbraEvent,
 )
-from poliastro.twobody.propagation import cowell
+from boinor.twobody.propagation import cowell
 
 import orekit
 from orekit.pyhelpers import setup_orekit_curdir
@@ -55,7 +55,7 @@ Earth_orekit = OneAxisEllipsoid(
 # The COE for the orbit to be defined
 a, ecc, inc, raan, argp, nu = (6828137.0, 0.0073, 87.0, 20.0, 10.0, 0)
 
-# Define the orkeit and poliastro orbits to be used for all the event validation
+# Define the orkeit and boinor orbits to be used for all the event validation
 # cases in this script
 epoch0_orekit = AbsoluteDate(2020, 1, 1, 0, 0, 00.000, TimeScalesFactory.getUTC())
 ss0_orekit = KeplerianOrbit(
@@ -70,8 +70,8 @@ ss0_orekit = KeplerianOrbit(
     epoch0_orekit,
     Constants.WGS84_EARTH_MU,
 )
-epoch0_poliastro = Time("2020-01-01", scale="utc")
-ss0_poliastro = Orbit.from_classical(
+epoch0_boinor = Time("2020-01-01", scale="utc")
+ss0_boinor = Orbit.from_classical(
     Earth,
     a * u.m,
     ecc * u.one,
@@ -79,7 +79,7 @@ ss0_poliastro = Orbit.from_classical(
     raan * u.deg,
     argp * u.deg,
     nu * u.deg,
-    epoch0_poliastro,
+    epoch0_boinor,
 )
 
 DICT_OF_EVENTS = {
@@ -88,63 +88,63 @@ DICT_OF_EVENTS = {
         EclipseDetector(Sun_orekit, RSun_orekit, Earth_orekit)
         .withUmbra()
         .withHandler(StopOnDecreasing()),
-        # poliastro umbra eclipse detector
-        UmbraEvent(ss0_poliastro, terminal=True, direction=1),
+        # boinor umbra eclipse detector
+        UmbraEvent(ss0_boinor, terminal=True, direction=1),
     ],
     "umbra-exit": [
         # orekit umbra eclipse detector
         EclipseDetector(Sun_orekit, RSun_orekit, Earth_orekit)
         .withUmbra()
         .withHandler(StopOnIncreasing()),
-        # poliastro umbra eclipse detector
-        UmbraEvent(ss0_poliastro, terminal=True, direction=-1),
+        # boinor umbra eclipse detector
+        UmbraEvent(ss0_boinor, terminal=True, direction=-1),
     ],
     "penumbra-entry": [
         # orekit penumbra eclipse detector
         EclipseDetector(Sun_orekit, RSun_orekit, Earth_orekit)
         .withPenumbra()
         .withHandler(StopOnDecreasing()),
-        # poliastro penumbra eclipse detector
-        PenumbraEvent(ss0_poliastro, terminal=True, direction=1),
+        # boinor penumbra eclipse detector
+        PenumbraEvent(ss0_boinor, terminal=True, direction=1),
     ],
     "penumbra-exit": [
         # orekit penumbra eclipse detector
         EclipseDetector(Sun_orekit, RSun_orekit, Earth_orekit)
         .withPenumbra()
         .withHandler(StopOnIncreasing()),
-        # poliastro penumbra eclipse detector
-        PenumbraEvent(ss0_poliastro, terminal=True, direction=-1),
+        # boinor penumbra eclipse detector
+        PenumbraEvent(ss0_boinor, terminal=True, direction=-1),
     ],
     "latitude-entry": [
         # orekit latitude crossing event
         LatitudeCrossingDetector(Earth_orekit, 45.00 * DEG_TO_RAD).withHandler(
             StopOnDecreasing()
         ),
-        # poliastro latitude crossing event
-        LatitudeCrossEvent(ss0_poliastro, 45.00 * u.deg, terminal=True, direction=-1),
+        # boinor latitude crossing event
+        LatitudeCrossEvent(ss0_boinor, 45.00 * u.deg, terminal=True, direction=-1),
     ],
     "latitude-exit": [
         # orekit latitude crossing event
         LatitudeCrossingDetector(Earth_orekit, 45.00 * DEG_TO_RAD).withHandler(
             StopOnIncreasing()
         ),
-        # poliastro latitude crossing event
-        LatitudeCrossEvent(ss0_poliastro, 45.00 * u.deg, terminal=True, direction=1),
+        # boinor latitude crossing event
+        LatitudeCrossEvent(ss0_boinor, 45.00 * u.deg, terminal=True, direction=1),
     ],
     "node-cross": [
         NodeDetector(ss0_orekit, ss0_orekit.frame).withHandler(StopOnEvent()),
         NodeCrossEvent(terminal=True),
     ],
 }
-"""A dictionary holding the orekitEvent, the poliastroEvent and the absolute and
+"""A dictionary holding the orekitEvent, the boinorEvent and the absolute and
 relative tolerances for the assertion test."""
 
 
 @pytest.mark.parametrize("event_name", DICT_OF_EVENTS.keys())
 def validate_event_detector(event_name):
 
-    # Unpack orekit and poliastro events
-    orekit_event, poliastro_event = DICT_OF_EVENTS[event_name]
+    # Unpack orekit and boinor events
+    orekit_event, boinor_event = DICT_OF_EVENTS[event_name]
 
     # Time of fliht for propagating the orbit
     tof = float(2 * 24 * 3600)
@@ -162,18 +162,18 @@ def validate_event_detector(event_name):
     orekit_event_epoch.format = "iso"
     print(f"{orekit_event_epoch}")
 
-    # Propagate poliastro's orbit
+    # Propagate boinor's orbit
     _, _ = cowell(
         Earth.k,
-        ss0_poliastro.r,
-        ss0_poliastro.v,
+        ss0_boinor.r,
+        ss0_boinor.v,
         # Generate a set of tofs, each one for each propagation second
         np.linspace(0, tof, 100) * u.s,
-        events=[poliastro_event],
+        events=[boinor_event],
     )
-    poliastro_event_epoch = ss0_poliastro.epoch + poliastro_event.last_t
-    print(f"{poliastro_event_epoch}")
+    boinor_event_epoch = ss0_boinor.epoch + boinor_event.last_t
+    print(f"{boinor_event_epoch}")
 
     # Test both event epochs by checking the distance in seconds between them
-    dt = np.abs((orekit_event_epoch - poliastro_event_epoch).to(u.s))
+    dt = np.abs((orekit_event_epoch - boinor_event_epoch).to(u.s))
     assert_quantity_allclose(dt, 0 * u.s, atol=5 * u.s, rtol=1e-7)

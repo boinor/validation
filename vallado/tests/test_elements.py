@@ -3,12 +3,12 @@ import numpy as np
 import pytest
 from pytest import approx
 
-from poliastro.core.elements import rv2coe
+from boinor.core.elements import rv2coe
 
 
 @pytest.fixture
 def earth_elliptic():
-    # Taken from poliastro.examples.iss
+    # Taken from boinor.examples.iss
     r = [8.59072560e2, -4.13720368e3, 5.29556871e3]  # km
     v = [7.37289205, 2.08223573, 4.39999794e-1]  # km / s
 

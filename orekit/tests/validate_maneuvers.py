@@ -1,4 +1,4 @@
-""" Validate poliastro impulsive maneuvers against Orekit """
+""" Validate boinor impulsive maneuvers against Orekit """
 
 import numpy as np
 from astropy import units as u
@@ -14,9 +14,9 @@ from org.orekit.propagation.events.handlers import StopOnDecreasing
 from org.orekit.time import AbsoluteDate
 from org.orekit.utils import Constants as C
 from org.orekit.utils import PVCoordinates
-from poliastro.bodies import Earth
-from poliastro.maneuver import Maneuver
-from poliastro.twobody import Orbit
+from boinor.bodies import Earth
+from boinor.maneuver import Maneuver
+from boinor.twobody import Orbit
 
 import orekit
 from orekit.pyhelpers import setup_orekit_curdir
@@ -88,24 +88,24 @@ def validate_3D_hohmann():
         rv_f.getVelocity().toArray() * u.m / u.s,
     )
 
-    # Build initial poliastro orbit and apply the maneuver
+    # Build initial boinor orbit and apply the maneuver
     r0_vec = [rx_0, ry_0, rz_0] * u.m
     v0_vec = [vx_0, vy_0, vz_0] * u.m / u.s
-    ss0_poliastro = Orbit.from_vectors(Earth, r0_vec, v0_vec)
-    man_poliastro = Maneuver.hohmann(ss0_poliastro, rf_norm * u.m)
+    ss0_boinor = Orbit.from_vectors(Earth, r0_vec, v0_vec)
+    man_boinor = Maneuver.hohmann(ss0_boinor, rf_norm * u.m)
 
     # Retrieve propagation time after maneuver has been applied
-    tof_prop = tof - man_poliastro.get_total_time().to(u.s).value
-    ssf_poliastro = ss0_poliastro.apply_maneuver(man_poliastro).propagate(
+    tof_prop = tof - man_boinor.get_total_time().to(u.s).value
+    ssf_boinor = ss0_boinor.apply_maneuver(man_boinor).propagate(
         tof_prop * u.s
     )
 
-    # Retrieve poliastro final state vectors
-    r_poliastro, v_poliastro = ssf_poliastro.rv()
+    # Retrieve boinor final state vectors
+    r_boinor, v_boinor = ssf_boinor.rv()
 
     # Assert final state vectors
-    assert_quantity_allclose(r_poliastro, r_orekit, rtol=1e-6)
-    assert_quantity_allclose(v_poliastro, v_orekit, rtol=1e-6)
+    assert_quantity_allclose(r_boinor, r_orekit, rtol=1e-6)
+    assert_quantity_allclose(v_boinor, v_orekit, rtol=1e-6)
 
 
 def validate_3D_bielliptic():
@@ -190,21 +190,21 @@ def validate_3D_bielliptic():
         rv_f.getVelocity().toArray() * u.m / u.s,
     )
 
-    # Build initial poliastro orbit and apply the maneuver
+    # Build initial boinor orbit and apply the maneuver
     r0_vec = [rx_0, ry_0, rz_0] * u.m
     v0_vec = [vx_0, vy_0, vz_0] * u.m / u.s
-    ss0_poliastro = Orbit.from_vectors(Earth, r0_vec, v0_vec)
-    man_poliastro = Maneuver.bielliptic(ss0_poliastro, rb_norm * u.m, rf_norm * u.m)
+    ss0_boinor = Orbit.from_vectors(Earth, r0_vec, v0_vec)
+    man_boinor = Maneuver.bielliptic(ss0_boinor, rb_norm * u.m, rf_norm * u.m)
 
     # Retrieve propagation time after maneuver has been applied
-    tof_prop = tof - man_poliastro.get_total_time().to(u.s).value
-    ssf_poliastro = ss0_poliastro.apply_maneuver(man_poliastro).propagate(
+    tof_prop = tof - man_boinor.get_total_time().to(u.s).value
+    ssf_boinor = ss0_boinor.apply_maneuver(man_boinor).propagate(
         tof_prop * u.s,
     )
 
-    # Retrieve poliastro final state vectors
-    r_poliastro, v_poliastro = ssf_poliastro.rv()
+    # Retrieve boinor final state vectors
+    r_boinor, v_boinor = ssf_boinor.rv()
 
     # Assert final state vectors
-    assert_quantity_allclose(r_poliastro, r_orekit, rtol=1e-6)
-    assert_quantity_allclose(v_poliastro, v_orekit, rtol=1e-6)
+    assert_quantity_allclose(r_boinor, r_orekit, rtol=1e-6)
+    assert_quantity_allclose(v_boinor, v_orekit, rtol=1e-6)

@@ -1,8 +1,8 @@
-# poliastro validation
+# boinor validation
 
-![CI shield](https://github.com/poliastro/validation/actions/workflows/ci_actions.yml/badge.svg?branch=main)
+![CI shield](https://github.com/boinor/validation/workflows/Continuous%20integration/badge.svg?branch=main)
 
-This repository holds validation cases against similar poliastro software.
+This repository holds validation cases against similar boinor software.
 Several alternatives are available:
 
 1. Vallado: a collection of routines published in the book "Fundamentals of
@@ -12,7 +12,7 @@ Several alternatives are available:
 
 2. Orekit: this software is open-source and coded in Java. However, it has a
    Python wrapper, which makes it ideal for validation testing cases since it is
-   very similar to poliastro. Official web page is hosted
+   very similar to boinor. Official web page is hosted
    [here](https://www.orekit.org/).
 
 3. GMAT: it is an open-source NASA software which stands for General Mission

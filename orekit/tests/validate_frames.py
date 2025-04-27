@@ -1,4 +1,4 @@
-""" Validate poliastro frames against Orekit ones """
+""" Validate boinor frames against Orekit ones """
 
 from itertools import product
 
@@ -17,37 +17,37 @@ from org.orekit.utils import (
     PVCoordinatesProvider,
     TimeStampedPVCoordinates,
 )
-from poliastro.bodies import Earth as Earth_poliastro
-from poliastro.bodies import Jupiter as Jupiter_poliastro
-from poliastro.bodies import Mars as Mars_poliastro
-from poliastro.bodies import Mercury as Mercury_poliastro
-from poliastro.bodies import Moon as Moon_poliastro
-from poliastro.bodies import Neptune as Neptune_poliastro
-from poliastro.bodies import Saturn as Saturn_poliastro
-from poliastro.bodies import Sun as Sun_poliastro
-from poliastro.bodies import Uranus as Uranus_poliastro
-from poliastro.bodies import Venus as Venus_poliastro
-from poliastro.constants import J2000 as J2000_POLIASTRO
-from poliastro.frames.equatorial import GCRS as GCRS_poliastro
-from poliastro.frames.equatorial import HCRS as HCRS_poliastro
-from poliastro.frames.equatorial import JupiterICRS as JupiterICRS_poliastro
-from poliastro.frames.equatorial import MarsICRS as MarsICRS_poliastro
-from poliastro.frames.equatorial import MercuryICRS as MercuryICRS_poliastro
-from poliastro.frames.equatorial import MoonICRS as MoonICRS_poliastro
-from poliastro.frames.equatorial import NeptuneICRS as NeptuneICRS_poliastro
-from poliastro.frames.equatorial import SaturnICRS as SaturnICRS_poliastro
-from poliastro.frames.equatorial import UranusICRS as UranusICRS_poliastro
-from poliastro.frames.equatorial import VenusICRS as VenusICRS_poliastro
-from poliastro.frames.fixed import ITRS as ITRS_poliastro
-from poliastro.frames.fixed import JupiterFixed as JupiterFixed_poliastro
-from poliastro.frames.fixed import MarsFixed as MarsFixed_poliastro
-from poliastro.frames.fixed import MercuryFixed as MercuryFixed_poliastro
-from poliastro.frames.fixed import MoonFixed as MoonFixed_poliastro
-from poliastro.frames.fixed import NeptuneFixed as NeptuneFixed_poliastro
-from poliastro.frames.fixed import SaturnFixed as SaturnFixed_poliastro
-from poliastro.frames.fixed import SunFixed as SunFixed_poliastro
-from poliastro.frames.fixed import UranusFixed as UranusFixed_poliastro
-from poliastro.frames.fixed import VenusFixed as VenusFixed_poliastro
+from boinor.bodies import Earth as Earth_boinor
+from boinor.bodies import Jupiter as Jupiter_boinor
+from boinor.bodies import Mars as Mars_boinor
+from boinor.bodies import Mercury as Mercury_boinor
+from boinor.bodies import Moon as Moon_boinor
+from boinor.bodies import Neptune as Neptune_boinor
+from boinor.bodies import Saturn as Saturn_boinor
+from boinor.bodies import Sun as Sun_boinor
+from boinor.bodies import Uranus as Uranus_boinor
+from boinor.bodies import Venus as Venus_boinor
+from boinor.constants import J2000 as J2000_BOINOR
+from boinor.frames.equatorial import GCRS as GCRS_boinor
+from boinor.frames.equatorial import HCRS as HCRS_boinor
+from boinor.frames.equatorial import JupiterICRS as JupiterICRS_boinor
+from boinor.frames.equatorial import MarsICRS as MarsICRS_boinor
+from boinor.frames.equatorial import MercuryICRS as MercuryICRS_boinor
+from boinor.frames.equatorial import MoonICRS as MoonICRS_boinor
+from boinor.frames.equatorial import NeptuneICRS as NeptuneICRS_boinor
+from boinor.frames.equatorial import SaturnICRS as SaturnICRS_boinor
+from boinor.frames.equatorial import UranusICRS as UranusICRS_boinor
+from boinor.frames.equatorial import VenusICRS as VenusICRS_boinor
+from boinor.frames.fixed import ITRS as ITRS_boinor
+from boinor.frames.fixed import JupiterFixed as JupiterFixed_boinor
+from boinor.frames.fixed import MarsFixed as MarsFixed_boinor
+from boinor.frames.fixed import MercuryFixed as MercuryFixed_boinor
+from boinor.frames.fixed import MoonFixed as MoonFixed_boinor
+from boinor.frames.fixed import NeptuneFixed as NeptuneFixed_boinor
+from boinor.frames.fixed import SaturnFixed as SaturnFixed_boinor
+from boinor.frames.fixed import SunFixed as SunFixed_boinor
+from boinor.frames.fixed import UranusFixed as UranusFixed_boinor
+from boinor.frames.fixed import VenusFixed as VenusFixed_boinor
 
 import orekit
 from orekit.pyhelpers import setup_orekit_curdir
@@ -103,42 +103,42 @@ OREKIT_BODIES = [
 ]
 OREKIT_FIXED_FRAMES = [body.getBodyOrientedFrame() for body in OREKIT_BODIES]
 
-# poliastro: bodies, inertial and fixed frames
-POLIASTRO_BODIES = [
-    Sun_poliastro,
-    Mercury_poliastro,
-    Venus_poliastro,
-    Earth_poliastro,
-    Moon_poliastro,
-    Mars_poliastro,
-    Jupiter_poliastro,
-    Saturn_poliastro,
-    Uranus_poliastro,
-    Neptune_poliastro,
+# boinor: bodies, inertial and fixed frames
+BOINOR_BODIES = [
+    Sun_boinor,
+    Mercury_boinor,
+    Venus_boinor,
+    Earth_boinor,
+    Moon_boinor,
+    Mars_boinor,
+    Jupiter_boinor,
+    Saturn_boinor,
+    Uranus_boinor,
+    Neptune_boinor,
 ]
-POLIASTRO_ICRS_FRAMES = [
-    HCRS_poliastro,
-    MercuryICRS_poliastro,
-    VenusICRS_poliastro,
-    GCRS_poliastro,
-    MoonICRS_poliastro,
-    MarsICRS_poliastro,
-    JupiterICRS_poliastro,
-    SaturnICRS_poliastro,
-    UranusICRS_poliastro,
-    NeptuneICRS_poliastro,
+BOINOR_ICRS_FRAMES = [
+    HCRS_boinor,
+    MercuryICRS_boinor,
+    VenusICRS_boinor,
+    GCRS_boinor,
+    MoonICRS_boinor,
+    MarsICRS_boinor,
+    JupiterICRS_boinor,
+    SaturnICRS_boinor,
+    UranusICRS_boinor,
+    NeptuneICRS_boinor,
 ]
-POLIASTRO_FIXED_FRAMES = [
-    SunFixed_poliastro,
-    MercuryFixed_poliastro,
-    VenusFixed_poliastro,
-    ITRS_poliastro,
-    MoonFixed_poliastro,
-    MarsFixed_poliastro,
-    JupiterFixed_poliastro,
-    SaturnFixed_poliastro,
-    UranusFixed_poliastro,
-    NeptuneFixed_poliastro,
+BOINOR_FIXED_FRAMES = [
+    SunFixed_boinor,
+    MercuryFixed_boinor,
+    VenusFixed_boinor,
+    ITRS_boinor,
+    MoonFixed_boinor,
+    MarsFixed_boinor,
+    JupiterFixed_boinor,
+    SaturnFixed_boinor,
+    UranusFixed_boinor,
+    NeptuneFixed_boinor,
 ]
 
 
@@ -146,10 +146,10 @@ POLIASTRO_FIXED_FRAMES = [
 OREKIT_BODIES_AND_FRAMES = dict(
     zip(BODIES_NAMES, zip(OREKIT_BODIES, OREKIT_FIXED_FRAMES))
 )
-POLIASTRO_BODIES_AND_FRAMES = dict(
+BOINOR_BODIES_AND_FRAMES = dict(
     zip(
         BODIES_NAMES,
-        zip(POLIASTRO_BODIES, POLIASTRO_ICRS_FRAMES, POLIASTRO_FIXED_FRAMES),
+        zip(BOINOR_BODIES, BOINOR_ICRS_FRAMES, BOINOR_FIXED_FRAMES),
     )
 )
 
@@ -162,7 +162,7 @@ ITRF_FRAME_OREKIT = FramesFactory.getITRF(IERSConventions.IERS_2010, False)
 
 
 # Some of tests are marked as XFAIL since Orekit implements the data from IAU
-# WGCCRE 2009 report while poliastro uses IAU WGCCRE 2015 one
+# WGCCRE 2009 report while boinor uses IAU WGCCRE 2015 one
 
 
 @pytest.mark.parametrize("r_vec", R_SET)
@@ -173,46 +173,46 @@ ITRF_FRAME_OREKIT = FramesFactory.getITRF(IERSConventions.IERS_2010, False)
         "Sun",
         pytest.param(
             "Mercury", marks=pytest.mark.xfail
-        ),  # poliastro WGCCRE 2015 report != orekit IAU 2009 report
+        ),  # boinor WGCCRE 2015 report != orekit IAU 2009 report
         "Venus",
         "Moon",
         pytest.param(
             "Mars", marks=pytest.mark.xfail
-        ),  # poliastro WGCCRE 2015 report != orekit WGCCRE 2009 report
+        ),  # boinor WGCCRE 2015 report != orekit WGCCRE 2009 report
         "Jupiter",
         "Saturn",
         "Uranus",
         pytest.param(
             "Neptune", marks=pytest.mark.xfail
-        ),  # poliastro WGCCRE 2015 report != orekit IAU 2009 report
+        ),  # boinor WGCCRE 2015 report != orekit IAU 2009 report
     ],
 )
 def validate_from_body_intertial_to_body_fixed(body_name, r_vec, v_vec):
 
-    # poliastro: collect body information
+    # boinor: collect body information
     (
-        BODY_POLIASTRO,
-        BODY_ICRF_FRAME_POLIASTRO,
-        BODY_FIXED_FRAME_POLIASTRO,
-    ) = POLIASTRO_BODIES_AND_FRAMES[body_name]
+        BODY_BOINOR,
+        BODY_ICRF_FRAME_BOINOR,
+        BODY_FIXED_FRAME_BOINOR,
+    ) = BOINOR_BODIES_AND_FRAMES[body_name]
 
     # Compute for the norm of position and velocity vectors
     r_norm, v_norm = [norm(vec) for vec in [r_vec, v_vec]]
-    R = BODY_POLIASTRO.R.to(u.m).value
+    R = BODY_BOINOR.R.to(u.m).value
 
     # Make a position vector who's norm is equal to the body's radius. Make a
     # unitary velocity vector. Units are in [m] and [m / s].
     rx, ry, rz = [float(r_i * R / r_norm) for r_i in r_vec]
     vx, vy, vz = [float(v_i / v_norm) for v_i in v_vec]
 
-    # poliastro: build r_vec and v_vec wrt inertial body frame
-    xyz_poliastro = CartesianRepresentation(rx * u.m, ry * u.m, rz * u.m)
-    coords_wrt_bodyICRS_poliastro = BODY_ICRF_FRAME_POLIASTRO(xyz_poliastro)
+    # boinor: build r_vec and v_vec wrt inertial body frame
+    xyz_boinor = CartesianRepresentation(rx * u.m, ry * u.m, rz * u.m)
+    coords_wrt_bodyICRS_boinor = BODY_ICRF_FRAME_BOINOR(xyz_boinor)
 
-    # poliastro: convert from inertial to fixed frame at given epoch
-    coords_wrt_bodyFIXED_poliastro = (
-        coords_wrt_bodyICRS_poliastro.transform_to(
-            BODY_FIXED_FRAME_POLIASTRO(obstime=J2000_POLIASTRO)
+    # boinor: convert from inertial to fixed frame at given epoch
+    coords_wrt_bodyFIXED_boinor = (
+        coords_wrt_bodyICRS_boinor.transform_to(
+            BODY_FIXED_FRAME_BOINOR(obstime=J2000_BOINOR)
         )
         .represent_as(CartesianRepresentation)
         .xyz
@@ -253,7 +253,7 @@ def validate_from_body_intertial_to_body_fixed(body_name, r_vec, v_vec):
 
     # Check position conversion
     assert_quantity_allclose(
-        coords_wrt_bodyFIXED_poliastro,
+        coords_wrt_bodyFIXED_boinor,
         coords_wrt_bodyFIXED_orekit,
         atol=1e-5 * u.m,
         rtol=1e-7,
@@ -266,7 +266,7 @@ def validate_GCRF_to_ITRF(r_vec, v_vec):
 
     # Compute for the norm of position and velocity vectors
     r_norm, v_norm = [norm(vec) for vec in [r_vec, v_vec]]
-    R = Earth_poliastro.R.to(u.m).value
+    R = Earth_boinor.R.to(u.m).value
 
     # Correction factor to normalize position and velocity vectors
     k_r = R / r_norm if r_norm != 0 else 1.00
@@ -295,18 +295,18 @@ def validate_GCRF_to_ITRF(r_vec, v_vec):
     )
     coords_ITRF_orekit = np.asarray(coords_ITRF_orekit) * u.m
 
-    # poliastro: build r_vec and v_vec wrt GCRF
-    xyz_poliastro = CartesianRepresentation(rx * u.m, ry * u.m, rz * u.m)
-    coords_GCRS_poliastro = GCRS_poliastro(xyz_poliastro)
+    # boinor: build r_vec and v_vec wrt GCRF
+    xyz_boinor = CartesianRepresentation(rx * u.m, ry * u.m, rz * u.m)
+    coords_GCRS_boinor = GCRS_boinor(xyz_boinor)
 
-    # poliastro: convert from inertial to fixed frame at given epoch
-    coords_ITRS_poliastro = (
-        coords_GCRS_poliastro.transform_to(ITRS_poliastro(obstime=J2000_POLIASTRO))
+    # boinor: convert from inertial to fixed frame at given epoch
+    coords_ITRS_boinor = (
+        coords_GCRS_boinor.transform_to(ITRS_boinor(obstime=J2000_BOINOR))
         .represent_as(CartesianRepresentation)
         .xyz
     )
 
     # Check position conversion
     assert_quantity_allclose(
-        coords_ITRS_poliastro, coords_ITRF_orekit, atol=1e-3 * u.m, rtol=1e-2,
+        coords_ITRS_boinor, coords_ITRF_orekit, atol=1e-3 * u.m, rtol=1e-2,
     )

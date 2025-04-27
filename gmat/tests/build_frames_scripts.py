@@ -3,15 +3,15 @@ from itertools import product
 from astropy import units as u
 from jinja2 import Template
 from numpy.linalg import norm
-from poliastro.bodies import Jupiter as Jupiter_poliastro
-from poliastro.bodies import Mars as Mars_poliastro
-from poliastro.bodies import Mercury as Mercury_poliastro
-from poliastro.bodies import Moon as Moon_poliastro
-from poliastro.bodies import Neptune as Neptune_poliastro
-from poliastro.bodies import Saturn as Saturn_poliastro
-from poliastro.bodies import Sun as Sun_poliastro
-from poliastro.bodies import Uranus as Uranus_poliastro
-from poliastro.bodies import Venus as Venus_poliastro
+from boinor.bodies import Jupiter as Jupiter_boinor
+from boinor.bodies import Mars as Mars_boinor
+from boinor.bodies import Mercury as Mercury_boinor
+from boinor.bodies import Moon as Moon_boinor
+from boinor.bodies import Neptune as Neptune_boinor
+from boinor.bodies import Saturn as Saturn_boinor
+from boinor.bodies import Sun as Sun_boinor
+from boinor.bodies import Uranus as Uranus_boinor
+from boinor.bodies import Venus as Venus_boinor
 
 # All interesting 3D directions
 R_SET = [
@@ -32,19 +32,19 @@ BODIES_NAMES = [
     "Neptune",
 ]
 
-POLIASTRO_BODIES = [
-    Sun_poliastro,
-    Mercury_poliastro,
-    Venus_poliastro,
-    Moon_poliastro,
-    Mars_poliastro,
-    Jupiter_poliastro,
-    Saturn_poliastro,
-    Uranus_poliastro,
-    Neptune_poliastro,
+BOINOR_BODIES = [
+    Sun_boinor,
+    Mercury_boinor,
+    Venus_boinor,
+    Moon_boinor,
+    Mars_boinor,
+    Jupiter_boinor,
+    Saturn_boinor,
+    Uranus_boinor,
+    Neptune_boinor,
 ]
 
-BODY_FROM_NAME = dict(zip(BODIES_NAMES, POLIASTRO_BODIES))
+BODY_FROM_NAME = dict(zip(BODIES_NAMES, BOINOR_BODIES))
 
 
 def main():

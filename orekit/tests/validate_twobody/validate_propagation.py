@@ -1,4 +1,4 @@
-""" Validate poliastro's two-body propagation against Orekit"""
+""" Validate boinor's two-body propagation against Orekit"""
 
 from astropy import units as u
 from astropy.tests.helper import assert_quantity_allclose
@@ -9,8 +9,8 @@ from org.orekit.propagation.analytical import KeplerianPropagator
 from org.orekit.time import AbsoluteDate
 from org.orekit.utils import Constants as C
 from org.orekit.utils import PVCoordinates
-from poliastro.bodies import Earth
-from poliastro.twobody import Orbit
+from boinor.bodies import Earth
+from boinor.twobody import Orbit
 
 import orekit
 from orekit.pyhelpers import setup_orekit_curdir
@@ -37,19 +37,19 @@ def validate_elliptic_propagation():
     orekit_propagator = KeplerianPropagator(ss0_orekit)
     ssf_orekit = orekit_propagator.propagate(epoch_00.shiftedBy(tof)).getOrbit()
 
-    # Build poliastro orbit
+    # Build boinor orbit
     r0_vec = [rx_0, ry_0, rz_0] * u.m
     v0_vec = [vx_0, vy_0, vz_0] * u.m / u.s
-    ss0_poliastro = Orbit.from_vectors(Earth, r0_vec, v0_vec)
-    ssf_poliastro = ss0_poliastro.propagate(tof * u.s)
+    ss0_boinor = Orbit.from_vectors(Earth, r0_vec, v0_vec)
+    ssf_boinor = ss0_boinor.propagate(tof * u.s)
 
     # Retrieve Orekit final state vectors
     r_orekit = ssf_orekit.getPVCoordinates().position.toArray() * u.m
     v_orekit = ssf_orekit.getPVCoordinates().velocity.toArray() * u.m / u.s
 
-    # Retrieve poliastro final state vectors
-    r_poliastro, v_poliastro = ssf_poliastro.rv()
+    # Retrieve boinor final state vectors
+    r_boinor, v_boinor = ssf_boinor.rv()
 
     # Assert final state vectors
-    assert_quantity_allclose(r_poliastro, r_orekit, atol=10 * u.m)
-    assert_quantity_allclose(v_poliastro, v_orekit, rtol=1e-5)
+    assert_quantity_allclose(r_boinor, r_orekit, atol=10 * u.m)
+    assert_quantity_allclose(v_boinor, v_orekit, rtol=1e-5)

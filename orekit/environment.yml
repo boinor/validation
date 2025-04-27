@@ -1,9 +1,9 @@
-name: poliastro-validation
+name: boinor-validation
 channels:
   - conda-forge
 dependencies:
   - orekit
   - pip
   - pip:
-    - git+https://github.com/poliastro/poliastro.git
+    - git+https://github.com/boinor/boinor.git
   - pytest

@@ -35,7 +35,7 @@ jobs:
           use-pylint: false
           use-pycodestyle: false
           use-mypy: false
-          # Tool's configuration is the same as poliastro
+          # Tool's configuration is the same as boinor
           extra-black-options: "--check --diff"
           extra-isort-options: "--check-only --diff"
           extra-flake8-options: "--ignore=E203,E266,E501,W503 --max-line-length=80 --max-complexity=18 --select=B,C,E,F,W,T4,B9"
@@ -62,7 +62,7 @@ jobs:
           environment-file: orekit/environment.yml
           python-version: ${{ matrix.python-version }}
           auto-activate-base: false
-          activate-environment: poliastro-validation
+          activate-environment: boinor-validation
       - run: |
           conda info
           conda list

@@ -19,27 +19,27 @@ conda env create -f environment.yml
 Finally, activate the environment by running:
 
 ```bash
-conda activate poliastro-validation
+conda activate boinor-validation
 ```
 
-where `poliastro-validation` is the name of the previously created conda
+where `boinor-validation` is the name of the previously created conda
 environment.
 
 
 ## Developers installation
 
-If you require to use the validation utilities for testing some poliastro source
-code modification, then you should install poliastro in development in the conda
+If you require to use the validation utilities for testing some boinor source
+code modification, then you should install boinor in development in the conda
 environment. Therefore, start by creating the conda environment by running:
 
 ```bash
-conda create -n poliastro-validation
+conda create -n boinor-validation
 ``` 
 
 and activate it using:
 
 ```bash
-conda activate poliastro-validation
+conda activate boinor-validation
 ```
 
 Install the required dependencies via:
@@ -50,9 +50,9 @@ conda install -c conda-forge orekit
 conda install -c anaconda pytest
 ```
 
-then clone the poliastro repository and install the library in development mode
+then clone the boinor repository and install the library in development mode
 by following [the official
-guide](https://docs.poliastro.space/en/stable/contributing.html#development-environment)
+guide](https://docs.boinor.space/en/stable/contributing.html#development-environment)
 
 ## How to run the tests
 

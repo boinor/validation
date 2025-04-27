@@ -2,5 +2,5 @@ hypothesis
 ipywidgets
 # matlabengineforpython
 numpy
-poliastro
+boinor
 pytest
