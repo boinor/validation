@@ -1,0 +1,19 @@
+# This workflow triggers boinor/validation CI from boinor/boinor
+# everytime a new commit is introduced in boinor:main branch
+name: Validation test cases
+
+on:
+  # A collection of events which trigger the validation action
+  push:
+    branches: [ main, actions ]
+  release:
+
+  # Enable manually to execute the actions
+  workflow_dispatch:
+
+jobs:
+  # Validate boinor's new features
+  validation:
+    uses: boinor/validation/.github/workflows/trigger_validation.yml@main
+    with:
+      boinor-branch: ${{ github.ref }}
