@@ -1,0 +1,45 @@
+name: Trigger validation
+
+on:
+  workflow_call:
+    inputs:
+      boinor-branch:
+        description: 'boinor branch to validate'
+        default: 'main'
+        required: false
+        type: string
+      validation-branch:
+        description: 'validation branch to validate'
+        default: 'main'
+        required: false
+        type: string
+
+jobs:
+  validation-tests:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: [3.13]
+
+    steps:
+      - uses: actions/checkout@v4
+        repository: 'boinor/boinor'
+        ref: ${{ inputs.boinor-branch }}
+        path: boinor
+        
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+          
+      - name: install the package
+        run: python3 -m pip install .
+        working-directory: boinor
+
+      - uses: actions/checkout@v4
+        repository: 'boinor/validation'
+        ref: ${{ inputs.validation-branch }}
+        path: validation
+
+      - run: run-validation.sh      
+        working-directory: validation
