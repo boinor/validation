@@ -23,9 +23,10 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
-        repository: 'boinor/boinor'
-        ref: ${{ inputs.boinor-branch }}
-        path: boinor
+        with:
+           repository: 'boinor/boinor'
+           ref: ${{ inputs.boinor-branch }}
+           path: boinor
         
       - name: Setup Python
         uses: actions/setup-python@v5
@@ -36,10 +37,11 @@ jobs:
         run: python3 -m pip install .
         working-directory: boinor
 
-#      - uses: actions/checkout@v4
-#        repository: 'boinor/validation'
-#        ref: ${{ inputs.validation-branch }}
-#        path: validation
+      - uses: actions/checkout@v4
+        with:
+           repository: 'boinor/validation'
+           ref: ${{ inputs.validation-branch }}
+           path: validation
 
 #      - run: run-validation.sh
 #        working-directory: validation
