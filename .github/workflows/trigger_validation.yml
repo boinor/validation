@@ -43,5 +43,5 @@ jobs:
            ref: ${{ inputs.validation-branch }}
            path: validation
 
-#      - run: run-validation.sh
-#        working-directory: validation
+      - run: run-validation.sh
+        working-directory: validation
