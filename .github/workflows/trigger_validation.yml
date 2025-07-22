@@ -43,9 +43,6 @@ jobs:
            ref: ${{ inputs.validation-branch }}
            path: validation
 
-#      - run: run-validation.sh
-#        working-directory: validation
-
       - uses: ricardochaves/python-lint@v1.3.0
         with:
           python-root-list: "validation/orekit/"
@@ -59,3 +56,28 @@ jobs:
           extra-black-options: "--check --diff"
           extra-isort-options: "--check-only --diff"
           extra-flake8-options: "--ignore=E203,E266,E501,W503 --max-line-length=80 --max-complexity=18 --select=B,C,E,F,W,T4,B9"
+
+# Execute tests to check if they are still valid for new features
+  orekit-validation-tests:
+    name: Orekit validation tests
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: [3.13]
+    defaults:
+      run:
+        shell: bash -l {0}
+
+    # Steps to be executed during tests checking job
+    steps:
+      # Install miniconda
+      - uses: conda-incubator/setup-miniconda@v2
+        with:
+          environment-file: validation/orekit/environment.yml
+          python-version: ${{ matrix.python-version }}
+          auto-activate-base: false
+          activate-environment: boinor-validation
+      - run: |
+          conda info
+          conda list
+          # pytest orekit/tests/
